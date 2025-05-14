@@ -1,0 +1,45 @@
+#+TITLE: README
+
+This is a single header library providing a bit array data
+structure. It's implementation is very minimal and doesn't provide any
+form of safety. Branching is kept to a minimum.
+
+You may choose between two implementations, functions and
+macros. Obviously, functions have the benefit of type checking and
+being easier to debug. However, the macro implementation performs
+better.
+
+To use the function implementation, do
+
+#+BEGIN_SRC c
+    #define BITARRAY_IMPLEMENTATION
+    #include "bitarray.h"
+#+END_SRC
+
+To use macros, do
+
+#+BEGIN_SRC c
+  #define BITARRAY_MACROS
+  #include "bitarray.h"
+#+END_SRC
+
+Afterwards, you may create a bitarray. For example,
+
+#+BEGIN_SRC c
+  bitarray_t* barr = malloc(bitarray_sizeof(128), sizeof(char));
+  bitarray_on(barr, 64);
+#+END_SRC
+
+will create a bit array with index range from 0 to 127, clear it, and
+set the 65th bit to 1. You're responsible for not going outside the
+boundaries.
+
+You may also abuse the underlying type for bitarray_t. By default,
+bitarray_t's underlying type is an unsigned char. If you wanted to
+enforce it to be an unsigned int, you can do the following,
+
+#+BEGIN_SRC c
+  #define _BITARRAY_T unsigned int
+  #define BITARRAY_IMPLEMENTATION
+  #include "bitarray.h"
+#+END_SRC
